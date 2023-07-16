@@ -5,3 +5,8 @@ export interface IProduct {
   image?: string;
   stock?: number;
 }
+
+export interface IProductFormResponse {
+  msg: string[];
+  success: boolean;
+}

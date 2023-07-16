@@ -1,7 +1,9 @@
 import { IProduct } from '@/interfaces/IProduct';
-import { Schema, model, models } from 'mongoose';
+import { Schema, model, models, Document } from 'mongoose';
+import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 
-const productSchema = new Schema<IProduct>({
+// init schema
+const productSchema = new Schema({
   name: {
     type: String,
     required: [true, 'Name is required.'],
@@ -12,20 +14,34 @@ const productSchema = new Schema<IProduct>({
   buy_price: {
     type: Number,
     required: [true, 'Buy price is required'],
+    min: [1, 'Buy price must be larger than 0'],
   },
   sell_price: {
     type: Number,
     required: [true, 'Sell price is required'],
+    min: [1, 'Sell price must be larger than 0'],
   },
   image: {
     type: String,
   },
   stock: {
     type: Number,
+    min: [0, 'Minimum product stock is 0'],
   },
 });
 
+// extend mongoose paginate
+productSchema.plugin(mongoosePagination);
+
+interface IProductPaginate extends IProduct, Document {}
+
 // use existing schema before create one
-const Product =
-  models.Product<IProduct> || model<IProduct>('Product', productSchema);
+// const Product: Pagination<IProductPaginate> =model<IProductPaginate, Pagination<IProductPaginate>>('Product', productSchema);
+const Product: any =
+  models.Product ||
+  model<IProductPaginate, Pagination<IProductPaginate>>(
+    'Product',
+    productSchema,
+  );
+
 export default Product;

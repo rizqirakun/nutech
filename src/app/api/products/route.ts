@@ -1,44 +1,79 @@
+import { IProduct, IProductFormResponse } from '@/interfaces/IProduct';
 import connectDB from '@/lib/mongodb';
 import Product from '@/models/product';
 import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
-// Notice the funciton definiton:
-export async function GET(req: NextRequest) {
+// GET BASE_URL/api/products
+export async function GET() {
+  const options = {
+    page: 1,
+    limit: 10,
+  };
+
+  await connectDB();
+  const result = await Product.paginate(options);
+  return NextResponse.json(result);
+}
+
+// POST BASE_URL/api/products
+export async function POST(req: NextRequest) {
+  const { name, buy_price, sell_price, image, stock }: IProduct =
+    await req.json();
+
+  let response: IProductFormResponse = {
+    msg: [],
+    success: false,
+  };
+
+  try {
+    await connectDB();
+    await Product.create({ name, buy_price, sell_price, image, stock });
+    response.msg = ['Product successfully saved'];
+    response.success = true;
+  } catch (error) {
+    if (error instanceof mongoose.Error.ValidationError) {
+      let errorList: string[] = [];
+      for (let e in error.errors) {
+        errorList.push(error.errors[e].message);
+      }
+
+      response.msg = errorList;
+    } else {
+      console.log(error);
+      response.msg = ['Unable to save product.'];
+    }
+  } finally {
+    return NextResponse.json(response);
+  }
+}
+
+// PATCH BASE_URL/api/products
+export async function PATCH(req: NextRequest) {
   return NextResponse.json(
-    { error: 'Method not allowed' },
+    { error: 'Access not allowed' },
     {
       status: 400,
     },
   );
 }
 
-export async function POST(req: NextRequest) {
-  const { name, buy_price, sell_price, image, stock } = await req.json();
+// PUT BASE_URL/api/products
+export async function PUT(req: NextRequest) {
+  return NextResponse.json(
+    { error: 'Access not allowed' },
+    {
+      status: 400,
+    },
+  );
+}
 
-  console.log(name, buy_price, sell_price, image, stock);
-
-  try {
-    await connectDB();
-    await Product.create({ name, buy_price, sell_price, image, stock });
-    return NextResponse.json({
-      msg: ['Message sent successfully'],
-      success: true,
-    });
-  } catch (error) {
-    if (error instanceof mongoose.Error.ValidationError) {
-      let errorList = [];
-      for (let e in error.errors) {
-        errorList.push(error.errors[e].message);
-      }
-
-      return NextResponse.json({ msg: errorList, success: false });
-    } else {
-      console.log(error);
-      return NextResponse.json({
-        msg: ['Unable to send message.'],
-        success: false,
-      });
-    }
-  }
+// DELETE BASE_URL/api/products
+export async function DELETE(req: NextRequest) {
+  return NextResponse.json(
+    { error: 'Access not allowed' },
+    {
+      status: 400,
+    },
+  );
 }
