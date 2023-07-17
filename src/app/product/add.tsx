@@ -4,11 +4,17 @@ import { IProduct, IProductFormResponse } from '@/interfaces/IProduct';
 import { useRouter } from 'next/navigation';
 import { SyntheticEvent, useState } from 'react';
 
+import { changeUrl, reset } from '@/redux/features/productImageSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+
 export default function AddProduct() {
+  const image = useAppSelector((state) => state.productImageReducer.value);
+  const dispatch = useAppDispatch();
+
   const [name, setName] = useState('');
   const [buyPrice, setBuyPrice] = useState(0);
   const [sellPrice, setSellPrice] = useState(0);
-  const [image, setImage] = useState('');
+  // const [image, setImage] = useState('');
   const [stock, setStock] = useState(0);
 
   const [messages, setMessages] = useState<string[]>([]);
@@ -56,7 +62,8 @@ export default function AddProduct() {
     setName('');
     setBuyPrice(0);
     setSellPrice(0);
-    setImage('');
+    // setImage('');
+    dispatch(reset());
     setStock(0);
 
     setMessages([]);
@@ -150,7 +157,7 @@ export default function AddProduct() {
                 placeholder="<image>"
                 readOnly
                 className="input input-sm text-center w-full mt-2"
-                onChange={(e) => setImage(e.target.value)}
+                // onChange={(e) => setImage(e.target.value)}
                 value={image}
               />
             </div>

@@ -73,8 +73,12 @@ export default async function PageProduct() {
                     </div>
                   </div>
                 </td>
-                <td className="text-right">Rp. {product.buy_price}</td>
-                <td className="text-right">Rp. {product.sell_price}</td>
+                <td className="text-right">
+                  Rp {product.buy_price.toLocaleString('id-ID')}
+                </td>
+                <td className="text-right">
+                  Rp {product.sell_price.toLocaleString('id-ID')}
+                </td>
                 <td>
                   <div className="flex justify-end gap-2">
                     <UpdateProduct {...product} />
@@ -98,13 +102,14 @@ export default async function PageProduct() {
 
         <div className="flex justify-end">
           <div className="join">
-            <button className="join-item btn">1</button>
-            <button className="join-item btn btn-active">2</button>
-            <button className="join-item btn">3</button>
-            <button className="join-item btn">4</button>
+            <button className="join-item btn btn-active">1</button>
           </div>
         </div>
       </div>
+
+      <footer className="text-center py-4">
+        <a href="https://github.com/rizqirakun/nutech">Github Code</a>
+      </footer>
     </main>
   );
 }

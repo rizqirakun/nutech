@@ -1,3 +1,4 @@
+import { Providers } from '@/redux/provider';
 import './globals.css';
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
@@ -18,11 +19,7 @@ export default function RootLayout({
     <html lang="en">
       <head></head>
       <body className={`bg-base-100 ${inter.className}`}>
-        {children}
-
-        <div className="text-center py-4">
-          <a href="https://github.com/rizqirakun/nutech">Github Code</a>
-        </div>
+        <Providers>{children}</Providers>
       </body>
     </html>
   );

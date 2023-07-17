@@ -10,7 +10,13 @@ import Dropzone, {
 } from '@/lib/react-dropzone-uploader';
 import axios from 'axios';
 
+import { changeUrl, reset } from '@/redux/features/productImageSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
+
 export default function Uploader() {
+  const image = useAppSelector((state) => state.productImageReducer.value);
+  const dispatch = useAppDispatch();
+
   const handleChangeStatus: IDropzoneProps['onChangeStatus'] = (
     fileWithMeta,
     status,
@@ -44,7 +50,8 @@ export default function Uploader() {
     if (result.status === 200) {
       const productObj = new URL(response.data.uploadURL);
       const productUrl = `${productObj.origin}/${response.data.filename}`;
-      // TODO Redux handle
+
+      dispatch(changeUrl(productUrl));
       console.log(productUrl);
     }
   };

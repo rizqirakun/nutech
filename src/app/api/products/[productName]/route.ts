@@ -4,6 +4,8 @@ import Product from '@/models/product';
 import { NextRequest, NextResponse } from 'next/server';
 import mongoose from 'mongoose';
 
+// TODO redux search
+
 // GET BASE_URL/api/products/<productName>
 export async function GET(
   req: NextRequest,

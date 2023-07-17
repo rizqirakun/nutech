@@ -1,9 +1,15 @@
 'use client';
 import { useState } from 'react';
 
+import { changeSearch, reset } from '@/redux/features/productSearchSlice';
+import { useAppDispatch, useAppSelector } from '@/redux/hooks';
 export default function SearchProduct() {
-  // TODO Redux handle
-  const [search, setSearch] = useState('');
+  const [searchText, setSearchText] = useState('');
+
+  const globalSearch = useAppSelector(
+    (state) => state.productSearchReducer.value,
+  );
+  const dispatch = useAppDispatch();
 
   return (
     <>
@@ -13,13 +19,18 @@ export default function SearchProduct() {
             <input
               className="input input-bordered join-item"
               placeholder="Search..."
-              onChange={(e) => setSearch(e.target.value)}
-              value={search}
+              onChange={(e) => setSearchText(e.target.value)}
+              value={searchText}
             />
           </div>
         </div>
         <div className="indicator">
-          <button className="btn join-item">Search</button>
+          <button
+            className="btn join-item"
+            onClick={() => dispatch(changeSearch(searchText))}
+          >
+            Search
+          </button>
         </div>
       </div>
     </>
