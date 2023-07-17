@@ -2,6 +2,7 @@
 import { useState } from 'react';
 
 export default function SearchProduct() {
+  // TODO Redux handle
   const [search, setSearch] = useState('');
 
   return (

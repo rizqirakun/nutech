@@ -1,22 +1,59 @@
 'use client';
 
 import React from 'react';
+import '@/lib/react-dropzone-uploader/dist/styles.css';
 // library bug: ignore blocking ts Type
 // import Dropzone, { IDropzoneProps } from 'react-dropzone-uploader';
-import Dropzone, { IDropzoneProps } from '@/lib/react-dropzone-uploader';
+import Dropzone, {
+  IDropzoneProps,
+  IFileWithMeta,
+} from '@/lib/react-dropzone-uploader';
 import axios from 'axios';
 
 export default function Uploader() {
-  const S3_PRESIGNED_URL = process.env.S3_PRESIGNED_URL;
   const handleChangeStatus: IDropzoneProps['onChangeStatus'] = (
-    { meta, remove },
+    fileWithMeta,
     status,
   ) => {
-    console.log(status, meta, remove);
+    if (status === 'done') {
+      manualSubmit(fileWithMeta);
+    }
   };
 
+  // use manualSubmit behavior
+  const manualSubmit = async (file: IFileWithMeta) => {
+    const S3_PRESIGNED_URL =
+      'https://bj4rvryv8c.execute-api.ap-southeast-1.amazonaws.com/default/getPresignedUrl-nutech-rizqirakun';
+
+    // GET request: presigned URL lambda
+    const response = await axios({
+      method: 'GET',
+      // send s3 dynamic type
+      params: {
+        type: file.meta.type,
+      },
+      url: S3_PRESIGNED_URL,
+    });
+
+    // PUT request: upload file to S3
+    const result = await fetch(response.data.uploadURL, {
+      method: 'PUT',
+      body: file['file'],
+    });
+
+    if (result.status === 200) {
+      const productObj = new URL(response.data.uploadURL);
+      const productUrl = `${productObj.origin}/${response.data.filename}`;
+      // TODO Redux handle
+      console.log(productUrl);
+    }
+  };
+
+  // depracted use manual instead
   const handleSubmit: IDropzoneProps['onSubmit'] = async (files) => {
     const f = files[0];
+    const S3_PRESIGNED_URL =
+      'https://bj4rvryv8c.execute-api.ap-southeast-1.amazonaws.com/default/getPresignedUrl-nutech-rizqirakun';
 
     // GET request: presigned URL lambda
     const response = await axios({
@@ -33,25 +70,23 @@ export default function Uploader() {
       method: 'PUT',
       body: f['file'],
     });
-
-    if (result.status === 200) {
-      const productUrl = `${response.data.productUrl}`;
-      console.log(productUrl);
-    }
   };
 
   return (
     <>
-      {/* @ts-ignore */}
       <Dropzone
-        // onChangeStatus={handleChangeStatus}
-        onSubmit={handleSubmit}
+        onChangeStatus={handleChangeStatus}
+        // onSubmit={handleSubmit}
+        accept="image/png, image/jpeg"
         maxFiles={1}
+        maxSizeBytes={100000}
         multiple={false}
         canCancel={false}
-        inputContent="Drop A File"
+        inputContent="Drop Image Here"
+        submitButtonDisabled={true}
+        submitButtonContent=""
         styles={{
-          dropzone: { height: 200 },
+          dropzone: { height: 200, overflow: 'hidden' },
           dropzoneActive: { borderColor: 'green' },
         }}
       />

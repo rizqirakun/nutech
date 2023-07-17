@@ -7,17 +7,18 @@ import { NextRequest, NextResponse } from 'next/server';
 type getpaginateOptions = { page: number; limit: number; search?: string };
 
 // GET BASE_URL/api/products
-export async function GET({ params }: { params: { search: string } }) {
-  const { search } = params;
+export async function GET() {
+  // TODO search & pagination
+  // const { search } = params;
 
   let options: getpaginateOptions = {
     page: 1,
-    limit: 1000, // prepare pagination
+    limit: 1000,
   };
 
-  if (!!search) {
-    options.search = search;
-  }
+  // if (!!search) {
+  //   options.search = search;
+  // }
 
   try {
     await connectDB();

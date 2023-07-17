@@ -13,8 +13,8 @@ export const metadata = {
 };
 
 async function getProducts() {
-  const params = { search: '' };
-  const res = await GET({ params });
+  // const params = { search: '' };
+  const res = await GET();
   return await res.json();
 }
 
