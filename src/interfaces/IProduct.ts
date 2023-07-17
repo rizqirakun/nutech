@@ -1,3 +1,5 @@
+import { Document } from 'mongoose';
+
 export interface IProduct {
   name: string;
   buy_price: number;
@@ -10,3 +12,5 @@ export interface IProductFormResponse {
   msg: string[];
   success: boolean;
 }
+
+export interface IProductPaginate extends IProduct, Document {}

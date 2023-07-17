@@ -15,11 +15,11 @@ export default function DeleteProduct(product: IProduct) {
       method: 'DELETE',
     });
 
+    toggleModal(false);
     formRefresh();
   };
 
   const formRefresh = async () => {
-    toggleModal(false);
     router.refresh();
     setIsMutating(false);
   };

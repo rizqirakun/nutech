@@ -6,6 +6,7 @@ import { GET } from '../api/products/route';
 import UpdateProduct from '@/app/product/update';
 import DeleteProduct from '@/app/product/delete';
 
+export const revalidate = 1; // revalidate this page every 1 seconds
 export const metadata = {
   title: 'Product Page',
 };
@@ -23,13 +24,14 @@ async function getProducts() {
   // });
 
   const res = await GET();
-  return res.json();
+  return await res.json();
 }
 
 export default async function PageProduct() {
   const products: IProduct[] = await getProducts().then((products) => {
     return products.docs;
   });
+
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-24">
       <div>
@@ -48,7 +50,7 @@ export default async function PageProduct() {
             </tr>
           </thead>
           <tbody>
-            {products.map((product, index) => (
+            {products?.map((product, index) => (
               <tr key={`product-${index}`}>
                 <th></th>
                 <td>{product.name}</td>

@@ -45,6 +45,11 @@ export default function UpdateProduct(product: IProduct) {
     formRefresh();
   };
 
+  const formReset = async () => {
+    setMessages([]);
+    setSuccess(false);
+  };
+
   const formRefresh = async () => {
     router.refresh();
     setIsMutating(false);
@@ -61,6 +66,7 @@ export default function UpdateProduct(product: IProduct) {
       modal.showModal();
     } else {
       modal.close();
+      formReset();
     }
   };
 

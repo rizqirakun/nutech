@@ -1,5 +1,5 @@
-import { IProduct } from '@/interfaces/IProduct';
-import { Schema, model, models, Document } from 'mongoose';
+import { IProductPaginate } from '@/interfaces/IProduct';
+import { Schema, model, models } from 'mongoose';
 import { mongoosePagination, Pagination } from 'mongoose-paginate-ts';
 
 // init schema
@@ -32,8 +32,6 @@ const productSchema = new Schema({
 
 // extend mongoose paginate
 productSchema.plugin(mongoosePagination);
-
-interface IProductPaginate extends IProduct, Document {}
 
 // use existing schema before create one
 // const Product: Pagination<IProductPaginate> =model<IProductPaginate, Pagination<IProductPaginate>>('Product', productSchema);

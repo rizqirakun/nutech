@@ -55,6 +55,13 @@ export default function AddProduct() {
     setImage('');
     setStock(0);
 
+    setMessages([]);
+    setSuccess(false);
+
+    formRefresh();
+  };
+
+  const formRefresh = async () => {
     toggleModal(false);
     router.refresh();
     setIsMutating(false);
