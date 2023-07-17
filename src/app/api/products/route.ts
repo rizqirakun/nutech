@@ -5,7 +5,6 @@ import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
 // GET BASE_URL/api/products
-export const revalidate = 1; //revalidate api every 1 second
 export async function GET() {
   const options = {
     page: 1,

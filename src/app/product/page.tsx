@@ -6,7 +6,7 @@ import { GET } from '../api/products/route';
 import UpdateProduct from '@/app/product/update';
 import DeleteProduct from '@/app/product/delete';
 
-export const revalidate = 1; // revalidate this page every 1 seconds
+export const revalidate = 0; // revalidate this page every seconds
 export const metadata = {
   title: 'Product Page',
 };
