@@ -46,6 +46,8 @@ export default function AddProduct() {
     if (success) {
       formReset();
     }
+
+    setIsMutating(false);
   };
 
   const formReset = async () => {
@@ -64,7 +66,6 @@ export default function AddProduct() {
   const formRefresh = async () => {
     toggleModal(false);
     router.refresh();
-    setIsMutating(false);
   };
 
   const modalSelector = 'modal-add-product';
