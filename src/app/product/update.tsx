@@ -95,68 +95,85 @@ export default function UpdateProduct(product: IProduct) {
 
           <div>
             <div>
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name" className="label">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
-                placeholder="Product Name"
+                placeholder="Product..."
+                className="input input-bordered w-full"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
               />
             </div>
             <div>
-              <label htmlFor="buy-price">Buy Price</label>
+              <label htmlFor="buy-price" className="label">
+                Buy Price
+              </label>
               <input
                 type="number"
                 id="buy-price"
                 placeholder="Rp 0"
+                className="input input-bordered w-full"
                 onChange={(e) => setBuyPrice(+e.target.value)}
                 value={buyPrice}
               />
             </div>
             <div>
-              <label htmlFor="sell-price">Sell Price</label>
+              <label htmlFor="sell-price" className="label">
+                Sell Price
+              </label>
               <input
                 type="number"
                 id="sell-price"
                 placeholder="Rp 0"
+                className="input input-bordered w-full"
                 onChange={(e) => setSellPrice(+e.target.value)}
                 value={sellPrice}
               />
             </div>
             <div>
-              <label htmlFor="image">Image</label>
+              <label htmlFor="image" className="label">
+                Image
+              </label>
               <input
                 type="text"
                 id="image"
-                placeholder="Image Link"
+                placeholder="Link..."
+                className="input input-bordered w-full"
                 onChange={(e) => setImage(e.target.value)}
                 value={image}
               />
             </div>
             <div>
-              <label htmlFor="stock">Stock</label>
+              <label htmlFor="stock" className="label">
+                Stock
+              </label>
               <input
                 type="number"
                 id="stock"
                 placeholder="Qty 0"
+                className="input input-bordered w-full"
                 onChange={(e) => setStock(+e.target.value)}
                 value={stock}
               />
             </div>
 
-            {!isMutating ? (
-              <button type="submit" className="btn btn-success">
-                Update Product
-              </button>
-            ) : (
-              <button type="button" className="btn loading">
-                Updating...
-              </button>
-            )}
+            <div className="mt-8">
+              {!isMutating ? (
+                <button type="submit" className="btn btn-success btn-block">
+                  Save
+                </button>
+              ) : (
+                <button type="button" className="btn loading">
+                  Saving...
+                </button>
+              )}
+            </div>
           </div>
 
-          <div className="bg-slate-100">
+          <div className="rounded-lg mt-4">
             {messages &&
               messages.map((message, index) => {
                 return (

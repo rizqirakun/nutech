@@ -10,6 +10,7 @@ const productSchema = new Schema({
     trim: true,
     minLength: [2, 'Name must be larger than 2 characters'],
     maxLength: [100, 'Name must be lesser than 100 characters'],
+    unique: true,
   },
   buy_price: {
     type: Number,

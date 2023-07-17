@@ -1,4 +1,5 @@
 'use client';
+import Uploader from '@/components/Uploader';
 import { IProduct, IProductFormResponse } from '@/interfaces/IProduct';
 import { useRouter } from 'next/navigation';
 import { SyntheticEvent, useState } from 'react';
@@ -45,6 +46,7 @@ export default function AddProduct() {
 
     if (success) {
       formReset();
+      formRefresh();
     }
 
     setIsMutating(false);
@@ -59,8 +61,6 @@ export default function AddProduct() {
 
     setMessages([]);
     setSuccess(false);
-
-    formRefresh();
   };
 
   const formRefresh = async () => {
@@ -79,21 +79,18 @@ export default function AddProduct() {
       modal.showModal();
     } else {
       modal.close();
+      formReset();
     }
   };
 
   return (
     <>
-      <button className="btn" onClick={() => toggleModal(true)}>
-        Add New Product
+      <button className="btn btn-info" onClick={() => toggleModal(true)}>
+        Add Product
       </button>
 
       <dialog id={modalSelector} className="modal modal-bottom sm:modal-middle">
-        <form
-          method="dialog"
-          className="modal-box w-11/12 max-w-5xl"
-          onSubmit={handleSubmit}
-        >
+        <form method="dialog" className="modal-box w-11/12 max-w-5xl">
           <button
             type="button"
             className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
@@ -104,68 +101,91 @@ export default function AddProduct() {
 
           <div>
             <div>
-              <label htmlFor="name">Name</label>
+              <label htmlFor="name" className="label">
+                Name
+              </label>
               <input
                 type="text"
                 id="name"
-                placeholder="Product Name"
+                placeholder="Product..."
+                className="input input-bordered w-full"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
               />
             </div>
             <div>
-              <label htmlFor="buy-price">Buy Price</label>
+              <label htmlFor="buy-price" className="label">
+                Buy Price
+              </label>
               <input
                 type="number"
                 id="buy-price"
                 placeholder="Rp 0"
+                className="input input-bordered w-full"
                 onChange={(e) => setBuyPrice(+e.target.value)}
                 value={buyPrice}
               />
             </div>
             <div>
-              <label htmlFor="sell-price">Sell Price</label>
+              <label htmlFor="sell-price" className="label">
+                Sell Price
+              </label>
               <input
                 type="number"
                 id="sell-price"
                 placeholder="Rp 0"
+                className="input input-bordered w-full"
                 onChange={(e) => setSellPrice(+e.target.value)}
                 value={sellPrice}
               />
             </div>
             <div>
-              <label htmlFor="image">Image</label>
+              <label htmlFor="image" className="label">
+                Image
+              </label>
+              <Uploader />
               <input
                 type="text"
                 id="image"
-                placeholder="Image Link"
+                placeholder="<image>"
+                readOnly
+                className="input input-sm text-center w-full mt-2"
                 onChange={(e) => setImage(e.target.value)}
                 value={image}
               />
             </div>
             <div>
-              <label htmlFor="stock">Stock</label>
+              <label htmlFor="stock" className="label">
+                Stock
+              </label>
               <input
                 type="number"
                 id="stock"
                 placeholder="Qty 0"
+                className="input input-bordered w-full"
                 onChange={(e) => setStock(+e.target.value)}
                 value={stock}
               />
             </div>
 
-            {!isMutating ? (
-              <button type="submit" className="btn btn-primary">
-                Save Product
-              </button>
-            ) : (
-              <button type="button" className="btn loading">
-                Saving...
-              </button>
-            )}
+            <div className="mt-8">
+              {!isMutating ? (
+                <button
+                  type="button"
+                  className="btn btn-info btn-block"
+                  onClick={handleSubmit}
+                >
+                  Save
+                </button>
+              ) : (
+                <button type="button" className="btn loading">
+                  Saving...
+                </button>
+              )}
+            </div>
           </div>
 
-          <div className="bg-slate-100">
+          <div className="rounded-lg mt-4">
             {messages &&
               messages.map((message, index) => {
                 return (

@@ -4,16 +4,28 @@ import Product from '@/models/product';
 import mongoose from 'mongoose';
 import { NextRequest, NextResponse } from 'next/server';
 
+type getpaginateOptions = { page: number; limit: number; search?: string };
+
 // GET BASE_URL/api/products
-export async function GET() {
-  const options = {
+export async function GET({ params }: { params: { search: string } }) {
+  const { search } = params;
+
+  let options: getpaginateOptions = {
     page: 1,
-    limit: 10,
+    limit: 1000, // prepare pagination
   };
 
-  await connectDB();
-  const result = await Product.paginate(options);
-  return NextResponse.json(result);
+  if (!!search) {
+    options.search = search;
+  }
+
+  try {
+    await connectDB();
+    const result = await Product.paginate(options);
+    return NextResponse.json(result);
+  } catch (err) {
+    return NextResponse.json([]);
+  }
 }
 
 // POST BASE_URL/api/products

@@ -51,7 +51,9 @@ export default function DeleteProduct(product: IProduct) {
         <form method="dialog" className="modal-box w-11/12 max-w-5xl">
           {/* <button type="button" className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2" onClick={closeModal}>✕</button> */}
 
-          <h3>Are you sure to delete {product.name}</h3>
+          <h3>
+            Are you sure to delete <b>{product.name}</b>
+          </h3>
           <div className="modal-action">
             <button
               type="button"
@@ -63,10 +65,10 @@ export default function DeleteProduct(product: IProduct) {
             {!isMutating ? (
               <button
                 type="button"
-                className="btn btn-danger"
+                className="btn btn-error w-32"
                 onClick={() => handleDelete(product.name)}
               >
-                Delete Product
+                Delete
               </button>
             ) : (
               <button type="button" className="btn loading">
