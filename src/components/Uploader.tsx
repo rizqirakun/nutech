@@ -1,7 +1,9 @@
 'use client';
 
 import React from 'react';
-import Dropzone, { IDropzoneProps } from 'react-dropzone-uploader';
+// library bug: ignore blocking ts Type
+// import Dropzone, { IDropzoneProps } from 'react-dropzone-uploader';
+import Dropzone, { IDropzoneProps } from '@/lib/react-dropzone-uploader';
 import axios from 'axios';
 
 export default function Uploader() {
@@ -40,8 +42,9 @@ export default function Uploader() {
 
   return (
     <>
+      {/* @ts-ignore */}
       <Dropzone
-        onChangeStatus={handleChangeStatus}
+        // onChangeStatus={handleChangeStatus}
         onSubmit={handleSubmit}
         maxFiles={1}
         multiple={false}
